@@ -1,204 +1,171 @@
-package br.ufsc.ine5605.trab1.display;
+package br.ufsc.ine5605.trab1.controllers;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.ArrayList;
 
-import br.ufsc.ine5605.trab1.controllers.ControladorFuncionario;
+import br.ufsc.ine5605.trab1.display.TelaFuncionario;
+import br.ufsc.ine5605.trab1.interfaces.IRucd;
 import br.ufsc.ine5605.trab1.objects.Funcionario;
+import br.ufsc.ine5605.trab1.objects.Message;
 
-public class TelaFuncionario {
+public class ControladorFuncionario implements IRucd {
 
-	private Scanner teclado;
-	private ControladorFuncionario ctrlFuncionario;
+	private ArrayList<Funcionario> listaFuncionarios;
+	private TelaFuncionario telaFuncionario;
 
-	public TelaFuncionario(ControladorFuncionario ctrlFuncionario) {
-		teclado = new Scanner(System.in);
-		this.ctrlFuncionario = ctrlFuncionario;
+	public ControladorFuncionario() {
+
+		telaFuncionario = new TelaFuncionario(this);
+		listaFuncionarios = new ArrayList<>();
+
 	}
 
-	public void exibeMenuInicial() {
+	public void inicia() {
+		telaFuncionario.exibeMenuInicial();
+	}
 
-		int opcao = 0;
-
-		System.out.println("-------------SisFuncionario-------------");
-		System.out.println("1-Cadastra Funcionario");
-		System.out.println("2-Exclui Funcionario");
-		System.out.println("3-Altera Funcionario");
-		System.out.println("4-Listar Funcionarios");
-		System.out.println("0-Encerra");
-		System.out.println("Escolha a opcao");
-
-		opcao = teclado.nextInt();
-
-		while (opcao != 0) {
-			switch (opcao) {
-			case 1:
-				/*
-				 * CADASTRA FUNCIONARIO
-				 */
-				cadastraFuncionario();
-				System.out.println("Digite a proxima opcao: ");
-				opcao = teclado.nextInt();
-				teclado.nextLine();
-				break;
-			case 2:
-				/*
-				 * REMOVER FUNCIONARIO
-				 */
-				removerFuncionario();
-
-				System.out.println("Digite a proxima opcao: ");
-				opcao = teclado.nextInt();
-				teclado.nextLine();
-				break;
-			case 3:
-				/*
-				 * ALTERA FUNCIONARIO
-				 */
-				alteraFuncionario();
-
-				System.out.println("Digite a proxima opcao");
-				opcao = teclado.nextInt();
-				teclado.nextLine();
-				break;
-			case 4:
-				/*
-				 * LISTA FUNCIONARIO
-				 */
-				listaFuncionarios();
-
-				System.out.println("Digite a proxima opcao: ");
-				opcao = teclado.nextInt();
-				teclado.nextLine();
-				break;
+	public Funcionario buscarPelaMatricula(String numeroMatricula) {
+		if (verificaFuncionarioExiste(numeroMatricula)) {
+			for (Funcionario f : listaFuncionarios) {
+				if (f.getNumeroMatricula().equals(numeroMatricula)) {
+					return f;
+				}
 			}
 		}
+		return null;
 	}
 
-	private void alteraFuncionario() {
-		System.out.println("Digite a matricula do funcionario a ser alterado: ");
-		String numeroMatricula = teclado.next();
-		teclado.nextLine();
+	public boolean validadeMatricula(String numeroMatricula) {
+		boolean validade = false;
 
-		while (!ctrlFuncionario.validadeMatricula(numeroMatricula)
-				|| !ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
-			System.out.println("Digite uma matricula existente: ");
-			numeroMatricula = teclado.next();
-			teclado.nextLine();
+		if (numeroMatricula.matches("\\d{8}") && !numeroMatricula.equals("00000000")) {
+			validade = true;
 		}
 
-		System.out.println("Digite o nome: ");
-		String nome = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaNome(nome)) {
-			System.out.println("Digite um nome valido: ");
-			nome = teclado.nextLine();
-		}
-
-		System.out.println("Digite o numero do telefone: ");
-		String telefone = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaTelefone(telefone)) {
-			System.out.println("Digite um numero de telefone valido: ");
-			telefone = teclado.nextLine();
-		}
-
-		System.out.println("Digite a data de nascimento em formato dd/MM/aaaa: ");
-		String dataDeNascimento = teclado.next();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date dataNascimento = null;
-		try {
-			dataNascimento = sdf.parse(dataDeNascimento);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		teclado.nextLine();
-
-		System.out.println("Digite o cargo: ");
-		String cargo = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaCargo(cargo)) {
-			System.out.println("Digite um cargo valido: ");
-			cargo = teclado.nextLine();
-		}
-
-		Funcionario funcionario = new Funcionario(numeroMatricula, nome, dataNascimento, telefone, cargo);
-
-		ctrlFuncionario.alterar(numeroMatricula, funcionario);
+		return validade;
 	}
 
-	private void removerFuncionario() {
-		System.out.println("Digite a matricula do funcionario a ser apagado: ");
-		String numeroMatricula = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
-			System.out.println("Digite uma matricula existente: ");
-			numeroMatricula = teclado.nextLine();
+	public boolean verificaFuncionarioExiste(String numeroMatricula) {
+		if (!listaFuncionarios.isEmpty()) {
+			for (Funcionario f : listaFuncionarios) {
+				if (f.getNumeroMatricula().equals(numeroMatricula)) {
+					return true;
+				}
+			}
 		}
-
-		ctrlFuncionario.excluir(numeroMatricula);
-
+		return false;
 	}
 
-	private void listaFuncionarios() {
-		System.out.println(ctrlFuncionario.exibeListaFuncionarios(ctrlFuncionario.listarFuncionarios()));
+	@Override
+	public void cadastrar(Object funcionario) {
+		if (funcionario != null) {
+			Funcionario func = (Funcionario) funcionario;
+			if (!listaFuncionarios.isEmpty()) {
+				if (!verificaFuncionarioExiste(func.getNumeroMatricula())) {
+					listaFuncionarios.add(func);
+					new Message("Funcionario cadastrado com sucesso!\n");
+				}
+			} else {
+				listaFuncionarios.add(func);
+				new Message("Funcionario cadastrado com sucesso!\n");
+			}
+		} else {
+			new Message("Erro ao cadastrar: Funcionario nulo ou Matricula Invalida ");
+		}
 	}
 
-	private void cadastraFuncionario() {
-
-		System.out.println("Digite um numero de matricula desejado que tenha 8 numeros: ");
-		String numeroMatricula = teclado.next();
-		teclado.nextLine();
-
-		while (!ctrlFuncionario.validadeMatricula(numeroMatricula)
-				|| ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
-			System.out.println("Digite uma matricula valida e inexistente: ");
-			numeroMatricula = teclado.next();
-			teclado.nextLine();
+	@Override
+	public void alterar(String numeroMatricula, Object funcionario) {
+		if (funcionario != null) {
+			Funcionario func = (Funcionario) funcionario;
+			if (!listaFuncionarios.isEmpty()) {
+				for (int i = 0; i < listaFuncionarios.size(); i++) {
+					if (listaFuncionarios.get(i).getNumeroMatricula().equals(func.getNumeroMatricula())) {
+						listaFuncionarios.set(i, func);
+						new Message("Funcionario alterado com sucesso!");
+					}
+				}
+			}
+		} else {
+			new Message("Erro ao alterar: Lista Vazia/Nula, Matricula Invalida ou Funcionario Nulo");
 		}
-
-		System.out.println("Digite o nome: ");
-		String nome = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaNome(nome)) {
-			System.out.println("Digite um nome valido: ");
-			nome = teclado.nextLine();
-		}
-
-		System.out.println("Digite o numero de telefone: ");
-		String telefone = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaTelefone(telefone)) {
-			System.out.println("Digite um numero de telefone valido: ");
-			telefone = teclado.nextLine();
-		}
-
-		System.out.println("Digite a data de nascimento em formato dd/MM/aaaa: ");
-		String dataDeNascimento = teclado.next();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Date dataNascimento = null;
-		try {
-			dataNascimento = sdf.parse(dataDeNascimento);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		teclado.nextLine();
-
-		System.out.println("Digite o cargo: ");
-		String cargo = teclado.nextLine();
-
-		while (!ctrlFuncionario.verificaCargo(cargo)) {
-			System.out.println("Digite um cargo valido: ");
-			cargo = teclado.nextLine();
-		}
-
-		Funcionario funcionario = new Funcionario(numeroMatricula, nome, dataNascimento, telefone, cargo);
-		ctrlFuncionario.cadastrar(funcionario);
-		listaFuncionarios();
-
 	}
+
+	public ArrayList<Funcionario> listarFuncionarios() {
+		return listaFuncionarios;
+	}
+
+	@Override
+	public void excluir(String numeroMatricula) {
+		if (verificaFuncionarioExiste(numeroMatricula)) {
+			listaFuncionarios.remove(buscarPelaMatricula(numeroMatricula));
+			new Message("Funcionario excluido com sucesso!");
+		} else {
+			new Message("Erro ao excluir: Lista Vazia/Nula ou Numero de Matricula Inválido");
+		}
+	}
+
+	public String exibeListaFuncionarios(ArrayList<Funcionario> listaFuncionarios) {
+		String listaDeFunc = "";
+		if (!listaFuncionarios.isEmpty()) {
+			for (Funcionario funcionario : listaFuncionarios) {
+				listaDeFunc += ("\nNumero de Matricula: " + funcionario.getNumeroMatricula() + "\nNome: "
+						+ funcionario.getNome() + "\nNumero de telefone: " + funcionario.getTelefone()
+						+ "\nData de Nascimento: " + funcionario.getDataNascimento() + "\nCargo: "
+						+ funcionario.getCargo() + "\n");
+			}
+		} else {
+			new Message("Lista Vazia/Nula");
+		}
+		return listaDeFunc;
+	}
+
+	public boolean verificaNome(String nome) {
+
+		boolean validade = false;
+
+		if (!(nome.length() < 3)) {
+			for (int i = 0; i < nome.length(); i++) {
+				if (Character.isAlphabetic(nome.charAt(i)) || Character.isWhitespace(nome.charAt(i))) {
+					validade = true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return validade;
+	}
+
+	public boolean verificaCargo(String cargo) {
+
+		boolean validade = false;
+
+		if (!(cargo.length() < 3)) {
+			for (int i = 0; i < cargo.length(); i++) {
+				if (Character.isAlphabetic(cargo.charAt(i)) || Character.isWhitespace(cargo.charAt(i))) {
+					validade = true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return validade;
+	}
+
+	public boolean verificaTelefone(String telefone) {
+
+		boolean validade = false;
+
+		if (!(telefone.length() < 8)) {
+			for (int i = 0; i < telefone.length(); i++) {
+				if (Character.isDigit(telefone.charAt(i)) || Character.isWhitespace(telefone.charAt(i))
+						|| Character.isJavaIdentifierPart(telefone.charAt(i))) {
+					validade = true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return validade;
+	}
+
 }
