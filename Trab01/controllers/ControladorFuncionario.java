@@ -100,7 +100,7 @@ public class ControladorFuncionario implements IRucd {
 			listaFuncionarios.remove(buscarPelaMatricula(numeroMatricula));
 			new Message("Funcionario excluido com sucesso!");
 		} else {
-			new Message("Erro ao excluir: Lista Vazia/Nula ou Numero de Matricula Inv·lido");
+			new Message("Erro ao excluir: Lista Vazia/Nula ou Numero de Matricula Inv√°lido");
 		}
 	}
 
@@ -158,7 +158,7 @@ public class ControladorFuncionario implements IRucd {
 		if (!(telefone.length() < 8)) {
 			for (int i = 0; i < telefone.length(); i++) {
 				if (Character.isDigit(telefone.charAt(i)) || Character.isWhitespace(telefone.charAt(i))
-						|| Character.isJavaIdentifierPart(telefone.charAt(i))) {
+						|| (telefone.charAt(i) == '-') || (telefone.charAt(i) == '(') || (telefone.charAt(i) == ')')) {
 					validade = true;
 				} else {
 					return false;
