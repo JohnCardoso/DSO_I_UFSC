@@ -41,6 +41,7 @@ public class TelaFuncionario {
 				cadastraFuncionario();
 				System.out.println("Digite a proxima opcao: ");
 				opcao = teclado.nextInt();
+				teclado.nextLine();
 				break;
 			case 2:
 				/*
@@ -50,6 +51,7 @@ public class TelaFuncionario {
 
 				System.out.println("Digite a proxima opcao: ");
 				opcao = teclado.nextInt();
+				teclado.nextLine();
 				break;
 			case 3:
 				/*
@@ -59,6 +61,7 @@ public class TelaFuncionario {
 
 				System.out.println("Digite a proxima opcao");
 				opcao = teclado.nextInt();
+				teclado.nextLine();
 				break;
 			case 4:
 				/*
@@ -68,6 +71,7 @@ public class TelaFuncionario {
 
 				System.out.println("Digite a proxima opcao: ");
 				opcao = teclado.nextInt();
+				teclado.nextLine();
 				break;
 			}
 		}
@@ -76,27 +80,29 @@ public class TelaFuncionario {
 	private void alteraFuncionario() {
 		System.out.println("Digite a matricula do funcionario a ser alterado: ");
 		String numeroMatricula = teclado.next();
+		teclado.nextLine();
 
 		while (!ctrlFuncionario.validadeMatricula(numeroMatricula)
 				|| !ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
 			System.out.println("Digite uma matricula existente: ");
 			numeroMatricula = teclado.next();
+			teclado.nextLine();
 		}
 
 		System.out.println("Digite o nome: ");
-		String nome = teclado.next();
+		String nome = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaNome(nome)) {
 			System.out.println("Digite um nome valido: ");
-			nome = teclado.next();
+			nome = teclado.nextLine();
 		}
 
 		System.out.println("Digite o numero do telefone: ");
-		String telefone = teclado.next();
+		String telefone = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaTelefone(telefone)) {
 			System.out.println("Digite um numero de telefone valido: ");
-			telefone = teclado.next();
+			telefone = teclado.nextLine();
 		}
 
 		System.out.println("Digite a data de nascimento em formato dd/MM/aaaa: ");
@@ -109,13 +115,14 @@ public class TelaFuncionario {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		teclado.nextLine();
 
 		System.out.println("Digite o cargo: ");
-		String cargo = teclado.next();
+		String cargo = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaCargo(cargo)) {
 			System.out.println("Digite um cargo valido: ");
-			cargo = teclado.next();
+			cargo = teclado.nextLine();
 		}
 
 		Funcionario funcionario = new Funcionario(numeroMatricula, nome, dataNascimento, telefone, cargo);
@@ -125,11 +132,11 @@ public class TelaFuncionario {
 
 	private void removerFuncionario() {
 		System.out.println("Digite a matricula do funcionario a ser apagado: ");
-		String numeroMatricula = teclado.next();
+		String numeroMatricula = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
 			System.out.println("Digite uma matricula existente: ");
-			numeroMatricula = teclado.next();
+			numeroMatricula = teclado.nextLine();
 		}
 
 		ctrlFuncionario.excluir(numeroMatricula);
@@ -144,27 +151,29 @@ public class TelaFuncionario {
 
 		System.out.println("Digite um numero de matricula desejado que tenha 8 numeros: ");
 		String numeroMatricula = teclado.next();
+		teclado.nextLine();
 
 		while (!ctrlFuncionario.validadeMatricula(numeroMatricula)
 				|| ctrlFuncionario.verificaFuncionarioExiste(numeroMatricula)) {
 			System.out.println("Digite uma matricula valida e inexistente: ");
 			numeroMatricula = teclado.next();
+			teclado.nextLine();
 		}
 
 		System.out.println("Digite o nome: ");
-		String nome = teclado.next();
+		String nome = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaNome(nome)) {
 			System.out.println("Digite um nome valido: ");
-			nome = teclado.next();
+			nome = teclado.nextLine();
 		}
 
 		System.out.println("Digite o numero de telefone: ");
-		String telefone = teclado.next();
+		String telefone = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaTelefone(telefone)) {
 			System.out.println("Digite um numero de telefone valido: ");
-			telefone = teclado.next();
+			telefone = teclado.nextLine();
 		}
 
 		System.out.println("Digite a data de nascimento em formato dd/MM/aaaa: ");
@@ -177,13 +186,14 @@ public class TelaFuncionario {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		teclado.nextLine();
 
 		System.out.println("Digite o cargo: ");
-		String cargo = teclado.next();
+		String cargo = teclado.nextLine();
 
 		while (!ctrlFuncionario.verificaCargo(cargo)) {
 			System.out.println("Digite um cargo valido: ");
-			cargo = teclado.next();
+			cargo = teclado.nextLine();
 		}
 
 		Funcionario funcionario = new Funcionario(numeroMatricula, nome, dataNascimento, telefone, cargo);
