@@ -119,29 +119,13 @@ public class ControladorFuncionario implements IRucd {
 		return listaDeFunc;
 	}
 
-	public boolean verificaNome(String nome) {
+	public boolean verificaNomeECargo(String nc) {
 
 		boolean validade = false;
 
-		if (!(nome.length() < 3)) {
-			for (int i = 0; i < nome.length(); i++) {
-				if (Character.isAlphabetic(nome.charAt(i)) || Character.isWhitespace(nome.charAt(i))) {
-					validade = true;
-				} else {
-					return false;
-				}
-			}
-		}
-		return validade;
-	}
-
-	public boolean verificaCargo(String cargo) {
-
-		boolean validade = false;
-
-		if (!(cargo.length() < 3)) {
-			for (int i = 0; i < cargo.length(); i++) {
-				if (Character.isAlphabetic(cargo.charAt(i)) || Character.isWhitespace(cargo.charAt(i))) {
+		if (!(nc.length() < 3)) {
+			for (int i = 0; i < nc.length(); i++) {
+				if (Character.isAlphabetic(nc.charAt(i)) || Character.isWhitespace(nc.charAt(i))) {
 					validade = true;
 				} else {
 					return false;
@@ -158,7 +142,8 @@ public class ControladorFuncionario implements IRucd {
 		if (!(telefone.length() < 8)) {
 			for (int i = 0; i < telefone.length(); i++) {
 				if (Character.isDigit(telefone.charAt(i)) || Character.isWhitespace(telefone.charAt(i))
-						|| (telefone.charAt(i) == '-') || (telefone.charAt(i) == '(') || (telefone.charAt(i) == ')')) {
+						|| (telefone.charAt(i) == '-') || (telefone.charAt(i) == '(') || (telefone.charAt(i) == ')')
+						|| (telefone.charAt(i) == '+')) {
 					validade = true;
 				} else {
 					return false;
