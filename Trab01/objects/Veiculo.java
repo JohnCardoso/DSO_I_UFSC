@@ -7,16 +7,14 @@ public class Veiculo {
 	private String marca;
 	private int ano;
 	private int quilometragemAtual;
-	private int codigo;
 
-	public Veiculo(String placa, String modelo, String marca, int ano, int quilometragemAtual, int codigo) {
+	public Veiculo(String placa, String modelo, String marca, int ano, int quilometragemAtual) {
 		super();
 		this.placa = placa;
 		this.modelo = modelo;
 		this.marca = marca;
 		this.ano = ano;
-		this.quilometragemAtual = quilometragemAtual;
-		this.codigo = codigo;
+		this.quilometragemAtual = quilometragemAtual;		
 	}
 
 	public String getPlaca() {
@@ -58,13 +56,4 @@ public class Veiculo {
 	public void setQuilometragemAtual(int quilometragemAtual) {
 		this.quilometragemAtual = quilometragemAtual;
 	}
-
-	public int getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
-
 }
